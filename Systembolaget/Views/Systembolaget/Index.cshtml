@@ -4,22 +4,22 @@
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
 
+<h1>All Products</h1>
+
 @if (isAdmin)
 {
-    <p>
-        <a asp-action="Create">Create a new book with asp-action</a> <br>
-    </p>
+    <a asp-action="Create" class="btn btn-primary">Add Product</a>
 }
 
 <table class="table">
     <thead>
         <tr>
-            <th>Bild</th>
-            <th>Namn</th>
-            <th>Beskrivning</th>
+            <th></th>
+            <th>Name</th>
+            <th>Description</th>
             <th>Procent</th>
-            <th>Volym</th>
-            <th>Pris</th>
+            <th>Volume</th>
+            <th>Price</th>
             @if (isAdmin)
             {
                 <th></th>
@@ -31,7 +31,7 @@
         {
             <tr>
 
-                <td><img src="@product.Picture" alt="Bild på sprit bre" width="50px" height="150" /></td>
+                <td><img src="@product.Picture" alt="Alcohol" width="50px" height="150" /></td>
 
                 <td>@if (isAdmin)
                     {

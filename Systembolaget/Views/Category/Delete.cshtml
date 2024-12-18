@@ -1,0 +1,12 @@
+@model Systembolaget.ViewModels.CategoryDeleteVm
+
+<h1>Delete category</h1>
+
+<p>Are you sure you want to delete the category "@Model.Name"?</p>
+<p><b>This will also delete ALL products associated with that category!!</b></p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

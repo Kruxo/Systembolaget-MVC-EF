@@ -13,7 +13,6 @@ public class Product
     public int Volume { get; set; }
     public string Picture { get; set; } = "";
     public int CategoryId { get; set; }
-
     public Category? Category { get; set; }
 
 }

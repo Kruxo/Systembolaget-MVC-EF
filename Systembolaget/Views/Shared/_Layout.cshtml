@@ -26,29 +26,17 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">Alla produkter</a>
+                                asp-action="Index">All Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">Vin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">Öl</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">Sprit</a>
+                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
                         </li>
 
                     </ul>
                     <ul class="navbar-nav flex-grow">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Create">Skapa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
@@ -56,8 +44,10 @@
                         <li class="nav-item">
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <button class="btn btn-primary" style="width: 100px"><a class="nav-link" style="color:white"
-                                        asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>
+                                <button class="btn btn-primary" style="height: 50px"><a class=" nav-link"
+                                        style="color:white" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+
+                                </button>
                             }
                         </li>
                     </ul>
