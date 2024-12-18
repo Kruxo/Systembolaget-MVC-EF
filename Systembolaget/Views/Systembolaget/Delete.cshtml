@@ -1,0 +1,43 @@
+@model ProductDeleteVm
+
+<img src="@Html.DisplayFor(model => model.Product.Picture)" alt="Bild på sprit bre" width="25px" height="100px" />
+
+
+
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col sm-2">
+            Namn
+        </dt>
+        <dd class="col-sm10">
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+        <dt class="col sm-2">
+            Description
+        </dt>
+        <dd class="col-sm10">
+            @Html.DisplayFor(model => model.Product.Description)
+        </dd>
+        <dt class="col sm-2">
+            Pris
+        </dt>
+        <dd class="col-sm10">
+            @Html.DisplayFor(model => model.Product.Price)
+        </dd>
+        <dt class="col sm-2">
+            Procent
+        </dt>
+        <dd class="col-sm10">
+            @Html.DisplayFor(model => model.Product.Procent)
+        </dd>
+
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Product.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-primary ms-5"> Back to List</a>
+    </form>
+</div>

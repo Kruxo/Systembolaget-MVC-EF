@@ -1,0 +1,8 @@
+using Systembolaget.Models;
+
+namespace Systembolaget.ViewModels;
+
+public class ProductIndexVm
+{
+    public List<Product> Products { get; set; } = [];
+}

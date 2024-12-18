@@ -1,0 +1,58 @@
+@model ProductIndexVm;
+@inject UserService UserService;
+@{
+    var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
+}
+
+@if (isAdmin)
+{
+    <p>
+        <a asp-action="Create">Create a new book with asp-action</a> <br>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Bild</th>
+            <th>Namn</th>
+            <th>Beskrivning</th>
+            <th>Procent</th>
+            <th>Volym</th>
+            <th>Pris</th>
+            @if (isAdmin)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+
+                <td><img src="@product.Picture" alt="Bild på sprit bre" width="50px" height="150" /></td>
+
+                <td>@if (isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@product.Id">@product.Name</a>
+                    }
+                    else
+                    {
+                        @product.Name
+                    }
+                </td>
+
+                <td>@product.Description</td>
+                <td>@product.Procent</td>
+                <td>@product.Volume</td>
+                <td>@product.Price</td>
+                @if (isAdmin)
+                {
+                    <td><a href="@Url.Action("Delete", "Systembolaget", new {id = product.Id})">Delete</a></td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
