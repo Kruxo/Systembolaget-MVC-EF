@@ -1,62 +1,56 @@
-@model ProductIndexVm;
-@inject UserService UserService;
+@model ProductIndexVm
+@inject UserService UserService
 @{
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
 
-<h1>All Products</h1>
+<h1 class="text-center my-4">All Products</h1>
 
 @if (isAdmin)
 {
-    <a asp-action="Create" class="btn btn-primary">Add Product</a>
+    <div class="text-center mb-4">
+        <a asp-action="Create" class="btn btn-primary">Add Product</a>
+    </div>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Procent</th>
-            <th>Volume</th>
-            <th>Price</th>
-            <th>Category</th>
-            @if (isAdmin)
-            {
-                <th></th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-
-                <td><img src="@product.Picture" alt="Alcohol" width="50px" height="auto" /></td>
-
-                <td>@if (isAdmin)
+<div class="d-flex flex-wrap justify-content-center">
+    @foreach (var product in Model.Products)
+    {
+        <div class="card m-3"
+            style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; border-radius: 10px;">
+            <img src="@product.Picture" class="card-img-top rounded-top" alt="@product.Name"
+                style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-2">@product.Name</h5>
+                <p class="card-text text-muted text-center">@product.Description</p>
+                <hr class="my-3">
+                <ul class="list-unstyled mb-3">
+                    <li class="d-flex justify-content-between">
+                        <span><strong>Alcohol Percentage:</strong></span>
+                        <span>@product.Procent%</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                        <span><strong>Volume:</strong></span>
+                        <span>@product.Volume ml</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                        <span><strong>Price:</strong></span>
+                        <span>@product.Price SEK</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                        <span><strong>Category:</strong></span>
+                        <span>@(Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name)</span>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2">
+                    @if (isAdmin)
                     {
-                        <a asp-action="Edit" asp-route-id="@product.Id">@product.Name</a>
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning flex-fill">Edit</a>
+                        <a href="@Url.Action("Delete", "Systembolaget", new { id = product.Id })"
+                            class="btn btn-danger flex-fill">Delete</a>
                     }
-                    else
-                    {
-                        @product.Name
-                    }
-                </td>
-                <td>@product.Description</td>
-                <td>@product.Procent</td>
-                <td>@product.Volume</td>
-                <td>@product.Price</td>
-                <td>
-                    @(Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name)
-                </td>
-
-                @if (isAdmin)
-                {
-                    <td><a href="@Url.Action("Delete", "Systembolaget", new {id = product.Id})">Delete</a></td>
-                }
-
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -5,10 +5,16 @@
     ViewData["Title"] = "SystemCompany";
 }
 
-<div>
+<div style="display: flex; justify-content: center; flex-direction: column; text-align: center;">
+
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="/images/logo.png" width="300px" /></a>
+
+    <h1>Database company</h1>
+    <p>For Swedish liquor company Systembolaget</p>
     @if (SignInManager.IsSignedIn(User))
     {
-        <p>You are signed in as @UserManager.GetUserName(User)</p>
+        <p style="margin-top: 20px;">You are signed in as <b>@UserManager.GetUserName(User)</b></p>
         <form method="post" asp-area="Identity" asp-page="/Account/Logout">
             <button type="submit" class="btn btn-primary">Logout</button>
         </form>

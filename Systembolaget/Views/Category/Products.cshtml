@@ -1,4 +1,8 @@
 @model CategoryProductsVm
+@inject UserService UserService
+@{
+    var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
+}
 
 <h1 class="text-center my-4">Products in @Model.CategoryName</h1>
 
@@ -8,31 +12,46 @@
 }
 else
 {
-    <table class="table table-bordered shadow-sm">
-        <thead class="table-secondary">
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Procent</th>
-                <th>Volume</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.Products)
-            {
-                <tr>
-                    <td><img src="@product.Picture" alt="Product Image" width="50px" height="auto" /></td>
-                    <td>@product.Name</td>
-                    <td>@product.Description</td>
-                    <td>@product.Procent</td>
-                    <td>@product.Volume</td>
-                    <td>@product.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="d-flex flex-wrap justify-content-center">
+        @foreach (var product in Model.Products)
+        {
+            <div class="card m-3"
+                style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; border-radius: 10px;">
+                <img src="@product.Picture" class="card-img-top rounded-top" alt="@product.Name"
+                    style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-2">@product.Name</h5>
+                    <p class="card-text text-muted text-center">@product.Description</p>
+                    <hr class="my-3">
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex justify-content-between">
+                            <span><strong>Alcohol Percentage:</strong></span>
+                            <span>@product.Procent%</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span><strong>Volume:</strong></span>
+                            <span>@product.Volume ml</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span><strong>Price:</strong></span>
+                            <span>@product.Price SEK</span>
+                        </li>
+                    </ul>
+                    @if (isAdmin)
+                    {
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Systembolaget" asp-action="Edit" asp-route-id="@product.Id"
+                                class="btn btn-warning flex-fill">Edit</a>
+                            <a asp-controller="Systembolaget" asp-action="Delete" asp-route-id="@product.Id"
+                                class="btn btn-danger flex-fill">Delete</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }
 
-<a asp-action="Index" asp-controller="Category" class="btn btn-secondary shadow-sm">Back to Categories</a>
+<div class="text-center mt-4">
+    <a asp-action="Index" asp-controller="Category" class="btn btn-secondary shadow-sm">Back to Categories</a>
+</div>
