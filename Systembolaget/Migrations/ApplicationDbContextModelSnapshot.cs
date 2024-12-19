@@ -332,12 +332,17 @@ namespace Systembolaget.Migrations
             modelBuilder.Entity("Systembolaget.Models.Product", b =>
                 {
                     b.HasOne("Systembolaget.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Systembolaget.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
