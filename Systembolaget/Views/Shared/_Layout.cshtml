@@ -34,20 +34,21 @@
 
                     </ul>
                     <ul class="navbar-nav flex-grow">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        </li>
                         <li class="nav-item">
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <button class="btn btn-primary" style="height: 50px"><a class=" nav-link"
-                                        style="color:white" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-
+                                <button class="btn btn-primary"><a class=" nav-link" style="color:white" asp-area="Identity"
+                                        asp-page="/Account/Logout">Logout</a>
                                 </button>
+                            }
+                            else
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            </li>
                             }
                         </li>
                     </ul>

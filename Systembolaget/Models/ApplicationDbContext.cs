@@ -8,4 +8,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     // Om vi använder oss utav modelbuilder kan vi konfiguera så tabellerna mer specifikt
 
+
+
 }

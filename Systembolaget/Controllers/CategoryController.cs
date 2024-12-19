@@ -6,7 +6,6 @@ using Systembolaget.ViewModels;
 
 namespace Systembolaget.Controllers;
 
-[Authorize(Roles = RoleConstants.Administrator)]
 public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _context;

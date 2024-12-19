@@ -2,11 +2,11 @@
 
 <h1>Edit product</h1>
 
-<p>Edit the product</p>
+<img src="@Model.Product.Picture" alt="Alcohol" width="50px" height="auto" class="my-5" />
+<h2>Edit the product</h2>
 
 <form asp-action="Edit" method="post">
     <input type="Hidden" asp-for="Product.Id" />
-
     <div class="form-group">
         <label asp-for="Product.Name" class="control-label"></label>
         <input asp-for="Product.Name" class="form-control" />
