@@ -20,6 +20,7 @@
             <th>Procent</th>
             <th>Volume</th>
             <th>Price</th>
+            <th>Category</th>
             @if (isAdmin)
             {
                 <th></th>
@@ -42,11 +43,14 @@
                         @product.Name
                     }
                 </td>
-
                 <td>@product.Description</td>
                 <td>@product.Procent</td>
                 <td>@product.Volume</td>
                 <td>@product.Price</td>
+                <td>
+                    @(Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name)
+                </td>
+
                 @if (isAdmin)
                 {
                     <td><a href="@Url.Action("Delete", "Systembolaget", new {id = product.Id})">Delete</a></td>

@@ -126,4 +126,29 @@ public class CategoryController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> Products(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var category = await _context.Categories
+            .Include(c => c.Products)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        var viewModel = new CategoryProductsVm
+        {
+            CategoryName = category.Name,
+            Products = category.Products.ToList()
+        };
+
+        return View(viewModel);
+    }
+
 }

@@ -11,5 +11,5 @@ public class Category()
     [Required(ErrorMessage = "Name cannot be empty")]
     public string Name { get; set; } = "";
 
-
+    public List<Product> Products { get; set; } = new List<Product>();
 }

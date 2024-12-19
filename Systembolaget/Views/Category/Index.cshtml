@@ -1,4 +1,4 @@
-@model Systembolaget.ViewModels.CategoryIndexVm
+@model CategoryIndexVm
 @inject UserService UserService;
 @{
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
@@ -6,9 +6,9 @@
 
 <h1>Categories</h1>
 
-@if(isAdmin)
+@if (isAdmin)
 {
-<a asp-action="Create" class="btn btn-primary">Add Category</a>
+    <a asp-action="Create" class="btn btn-primary">Add Category</a>
 }
 <table class="table">
     <thead>
@@ -18,8 +18,9 @@
 
             }
             <th>Name</th>
-            @if(isAdmin){
-            <th class="text-end" >Edit</th>
+            @if (isAdmin)
+            {
+                <th class="text-end">Edit</th>
             }
         </tr>
     </thead>
@@ -27,12 +28,16 @@
         @foreach (var category in Model.Categories)
         {
             <tr>
-                <td >@category.Name</td>
-                @if(isAdmin){
-                <td class="text-end">
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                <td>
+                    <a asp-action="Products" asp-route-id="@category.Id">@category.Name</a>
                 </td>
+
+                @if (isAdmin)
+                {
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                    </td>
                 }
             </tr>
         }

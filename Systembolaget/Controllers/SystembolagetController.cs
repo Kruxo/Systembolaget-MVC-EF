@@ -17,9 +17,12 @@ public class SystembolagetController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var products = await _context.Products.ToListAsync();
+        var viewModel = new ProductIndexVm
+        {
+            Products = await _context.Products.ToListAsync(),
+            Categories = await _context.Categories.ToListAsync()
+        };
 
-        var viewModel = new ProductIndexVm { Products = products };
         return View(viewModel);
     }
 
@@ -46,6 +49,7 @@ public class SystembolagetController : Controller
             return RedirectToAction(nameof(Index));
         }
 
+        createVm.Categories = _context.Categories.OrderBy(c => c.Name).ToList(); //When validation fails we repopulate category dropdown with values again
         return View(createVm);
     }
 
