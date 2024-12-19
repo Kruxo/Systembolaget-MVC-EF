@@ -1,15 +1,15 @@
 @model CategoryProductsVm
 
-<h1>Products in @Model.CategoryName</h1>
+<h1 class="text-center my-4">Products in @Model.CategoryName</h1>
 
 @if (Model.Products.Count == 0)
 {
-    <p>No products available in this category.</p>
+    <div class="alert alert-warning text-center">No products available in this category.</div>
 }
 else
 {
-    <table class="table">
-        <thead>
+    <table class="table table-bordered shadow-sm">
+        <thead class="table-secondary">
             <tr>
                 <th></th>
                 <th>Name</th>
@@ -35,4 +35,4 @@ else
     </table>
 }
 
-<a asp-action="Index" asp-controller="Category" class="btn btn-secondary">Back to Categories</a>
+<a asp-action="Index" asp-controller="Category" class="btn btn-secondary shadow-sm">Back to Categories</a>
