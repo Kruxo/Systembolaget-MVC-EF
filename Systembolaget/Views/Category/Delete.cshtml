@@ -2,14 +2,16 @@
 
 <h1 class="text-center my-4 text-danger">Delete Category</h1>
 
-<div class="d-flex flex-column align-items-center">
-    <p class="text-center fs-5">Are you sure you want to delete the category <strong>"@Model.Name"</strong>?</p>
-    <p class="text-center text-danger"><b>This will also delete ALL products associated with that category!</b></p>
-    <form asp-action="Delete" method="post" class="mt-3">
-        <input type="hidden" asp-for="Id" />
-        <div class="d-flex gap-3">
-            <button type="submit" class="btn btn-danger px-4">Delete</button>
-            <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
-        </div>
-    </form>
+<div class="d-flex justify-content-center">
+    <div class="d-flex flex-column align-items-center w-50 p-4 shadow rounded bg-light">
+        <p class="text-center fs-5">Are you sure you want to delete the category <strong>"@Model.Name"</strong>?</p>
+        <p class="text-center text-danger"><b>This will also delete ALL products associated with that category!</b></p>
+        <form asp-action="Delete" method="post" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex gap-3">
+                <button type="submit" class="btn btn-danger px-4">Delete</button>
+                <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
