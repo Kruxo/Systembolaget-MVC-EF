@@ -5,25 +5,43 @@
     ViewData["Title"] = "SystemCompany";
 }
 
-<div style="display: flex; justify-content: center; flex-direction: column; text-align: center;">
 
-    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-        <img src="/images/logo.png" width="300px" /></a>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Are you 20 years old?</h5>
 
-    <h1>Database company</h1>
-    <p>For Swedish liquor company Systembolaget</p>
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <p style="margin-top: 20px;">You are signed in as <b>@UserManager.GetUserName(User)</b></p>
-        <form method="post" asp-area="Identity" asp-page="/Account/Logout">
-            <button type="submit" class="btn btn-primary">Logout</button>
-        </form>
-    }
-    else
-    {
-        <p>
-            Not signed in
-        </p>
-    }
-    </ul>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">This page contains information about alcohol. You need to be 20 years old or older
+                    to be able to visit and purchase at this page.</p>
+            </div>
+            <div class="modal-footer">
+                <!-- Button 1 (first action) -->
+                <button type="button" class="btn btn-primary" onclick="actionOne()">No, I am not 20 year</button>
+                <!-- Button 2 (second action) -->
+                <button type="button" class="btn btn-primary" onclick="actionTwo()">Yes, I am over 20 year</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+
+    window.onload = function () {
+        $('#staticBackdrop').modal('show');
+    };
+
+    // Button 1 Action
+    function actionOne() {
+        window.location.href = "@Url.Action("Minor", "Home")";
+    }
+
+    // Button 2 Action
+    function actionTwo() {
+        window.location.href = "@Url.Action("Index", "Systembolaget")";
+
+    }
+</script>
