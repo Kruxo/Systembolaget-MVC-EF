@@ -1,5 +1,7 @@
 @model CategoryProductsVm
 @inject UserService UserService
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @{
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
@@ -45,6 +47,12 @@ else
                                 class="btn btn-warning flex-fill">Edit</a>
                             <a asp-controller="Systembolaget" asp-action="Delete" asp-route-id="@product.Id"
                                 class="btn btn-danger flex-fill">Delete</a>
+                        </div>
+                    }
+                    else if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="d-grid">
+                            <a class="btn btn-success flex-fill">Add to cart</a>
                         </div>
                     }
                 </div>
