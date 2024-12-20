@@ -36,39 +36,47 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 ">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">All Products</a>
+                        <li class="nav-item" style="margin: 0 5px">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Systembolaget" ? "active" : "")"
+                                asp-controller="Systembolaget" asp-action="Index">All Products</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
+                        <li class="nav-item" style="margin: 0 5px">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                                asp-controller="Category" asp-action="Index">Categories</a>
                         </li>
 
                     </ul>
                     <ul class="navbar-nav d-flex justify-content-end">
                         @if (isAdmin)
                         {
-                            <span class="navbar-text text-dark">
-                                <strong>@UserManager.GetUserName(User) 🐱‍👤</strong>&nbsp;</span>
-                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-primary"
+                            <a class="navbar-text text-dark" style="margin: 0 5px">
+                                <strong>@UserManager.GetUserName(User) 🐱‍👤</strong></a>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-danger"
                                 style="color: white; text-align: center;">Logout</a>
                         }
                         else if (SignInManager.IsSignedIn(User))
                         {
-                            <a asp-controller="Home" asp-action="Cart" class="nav-link text-dark">Cart 🛒&nbsp;</a>
-                            <span class="navbar-text text-dark">
-                                <strong>@UserManager.GetUserName(User) 🦄&nbsp;</strong>&nbsp;</span>
-                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-primary"
+                            <a asp-controller="Cart" asp-action="Index"
+                                class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cart" ? "active" : "")"
+                                style="margin: 0 5px">Cart 🛒</a>
+                            <span class="navbar-text text-dark" style="margin: 0 5px">
+                                <strong>@UserManager.GetUserName(User) 🦄</strong></span>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-danger"
                                 style="color: white; text-align: center;">Logout</a>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
+                            <ul class="navbar-nav d-flex justify-content-end">
+                                <li class="nav-item" style="margin: 0 5px">
+                                    <a class="nav-link text-dark @(ViewContext.RouteData.Values["Page"]?.ToString() == "/Account/Login" ? "active" : "")"
+                                        asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                                </li>
+                                <li class="nav-item" style="margin: 0 5px">
+                                    <a class="nav-link text-dark @(ViewContext.RouteData.Values["Page"]?.ToString() == "/Account/Register" ? "active" : "")"
+                                        asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                            </ul>
+
                         }
                     </ul>
                 </div>

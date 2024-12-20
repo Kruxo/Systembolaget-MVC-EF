@@ -23,11 +23,6 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Cart()
-    {
-        return View();
-    }
-
     public IActionResult Minor()
     {
         return Redirect("https://www.leoslekland.se/lek-pa-leos");
