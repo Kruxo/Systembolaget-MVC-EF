@@ -14,8 +14,6 @@
     {
         <h2 class="text-danger"><b>Please log in to be able to purchase our alcohol!</b></h2>
     }
-
-
 </div>
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -31,25 +29,19 @@
                     to be able to visit and purchase at this page.</p>
             </div>
             <div class="modal-footer">
-                <!-- Button 1 (first action) -->
-                <button type="button" class="btn btn-primary" onclick="actionOne()">No, I am not 20 year</button>
-                <!-- Button 2 (second action) -->
+                <button type="button" class="btn btn-primary" onclick="minor()">No, I am not 20 year</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Yes, I am over 20 year</button>
-
             </div>
         </div>
     </div>
 </div>
 
 <script>
-
     window.onload = function () {
         $('#staticBackdrop').modal('show');
     };
 
-    // Button 1 Action
-    function actionOne() {
+    function minor() {
         window.location.href = "@Url.Action("Minor", "Home")";
     }
-
 </script>
