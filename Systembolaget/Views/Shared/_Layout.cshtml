@@ -1,8 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject UserService UserService
 @{
     ViewData["Title"] = "Systembolaget";
+}
+@{
+    var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
 
 <!DOCTYPE html>
@@ -34,33 +38,38 @@
                     <ul class="navbar-nav flex-grow-1 ">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index" >All Products</a>
+                                asp-action="Index">All Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Category"
-                             asp-action="Index" >Categories</a>
+                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
                         </li>
 
                     </ul>
-                    <ul class="navbar-nav  d-flex align-items-center">
-                        
-                            @if (SignInManager.IsSignedIn(User))
-                            {    
-                                <span class="navbar-text text-dark">Signed in as <strong>@UserManager.GetUserName(User)</strong>&nbsp;</span>
-                                <button class="btn btn-primary btn-sm" ><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>
-                               
-                                
-                            }
-                            else
-                            {
+                    <ul class="navbar-nav d-flex justify-content-end">
+                        @if (isAdmin)
+                        {
+                            <span class="navbar-text text-dark">
+                                <strong>@UserManager.GetUserName(User) 🐱‍👤</strong>&nbsp;</span>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-primary"
+                                style="color: white; text-align: center;">Logout</a>
+                        }
+                        else if (SignInManager.IsSignedIn(User))
+                        {
+                            <a asp-controller="Home" asp-action="Cart" class="nav-link text-dark">Cart 🛒&nbsp;</a>
+                            <span class="navbar-text text-dark">
+                                <strong>@UserManager.GetUserName(User) 🦄&nbsp;</strong>&nbsp;</span>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-primary"
+                                style="color: white; text-align: center;">Logout</a>
+                        }
+                        else
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             </li>
-                            }
-                        
+                        }
                     </ul>
                 </div>
             </div>

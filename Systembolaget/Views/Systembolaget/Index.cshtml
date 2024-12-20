@@ -1,5 +1,7 @@
 @model ProductIndexVm
 @inject UserService UserService
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @{
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
@@ -9,7 +11,7 @@
 @if (isAdmin)
 {
     <div class="text-center mb-4">
-        <a asp-action="Create" class="btn btn-primary">Add Product</a>
+        <a asp-action="Create" class="btn btn-primary">+ Add Product</a>
     </div>
 }
 
@@ -17,9 +19,10 @@
     @foreach (var product in Model.Products)
     {
         <div class="card m-3"
-            style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; border-radius: 10px;">
+            style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid rgba(194, 194, 194, 0.185); border-radius: 10px;">
             <img src="@product.Picture" class="card-img-top rounded-top" alt="@product.Name"
-                style="height: 200px; object-fit: cover;">
+                style="height: 150px; width: auto; object-fit: contain; margin: auto; padding-top: 10px">
+
             <div class="card-body">
                 <h5 class="card-title text-center mb-2">@product.Name</h5>
                 <p class="card-text text-muted text-center">@product.Description</p>
@@ -42,14 +45,21 @@
                         <span>@(Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name)</span>
                     </li>
                 </ul>
-                <div class="d-flex gap-2">
-                    @if (isAdmin)
-                    {
+                @if (isAdmin)
+                {
+                    <div class="d-flex gap-2">
                         <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning flex-fill">Edit</a>
                         <a href="@Url.Action("Delete", "Systembolaget", new { id = product.Id })"
                             class="btn btn-danger flex-fill">Delete</a>
-                    }
-                </div>
+                    </div>
+                }
+                else if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="d-grid">
+                        <a class="btn btn-success flex-fill">Add to cart</a>
+                    </div>
+                }
+
             </div>
         </div>
     }

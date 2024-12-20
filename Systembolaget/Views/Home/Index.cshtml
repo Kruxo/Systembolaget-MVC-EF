@@ -5,6 +5,13 @@
     ViewData["Title"] = "SystemCompany";
 }
 
+<div style="display: flex; justify-content: center; flex-direction: column; text-align: center;">
+
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="/images/logo.png" width="300px" /></a>
+
+    <h1>Swedish liquor reseller</h1>
+</div>
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -22,7 +29,8 @@
                 <!-- Button 1 (first action) -->
                 <button type="button" class="btn btn-primary" onclick="actionOne()">No, I am not 20 year</button>
                 <!-- Button 2 (second action) -->
-                <button type="button" class="btn btn-primary" onclick="actionTwo()">Yes, I am over 20 year</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Yes, I am over 20 year</button>
+
             </div>
         </div>
     </div>
@@ -39,9 +47,4 @@
         window.location.href = "@Url.Action("Minor", "Home")";
     }
 
-    // Button 2 Action
-    function actionTwo() {
-        window.location.href = "@Url.Action("Index", "Systembolaget")";
-
-    }
 </script>
