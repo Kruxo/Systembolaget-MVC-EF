@@ -1,39 +1,41 @@
 @model ProductDeleteVm
 
-<div class="container my-5">
+<div class="container my-5" style="text-align: center;">
+    <h1 class="card-title text-danger">Are you sure you want to delete this product?</h1>
     <div class="card shadow-sm rounded mx-auto" style="max-width: 800px;">
         <div class="row g-0">
             <!-- Product Image Section -->
             <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
                 <img src="@Model.Product.Picture" alt="Product Image" class="img-fluid rounded"
-                    style="max-height: 250px; object-fit: cover;">
+                    style="max-height: 200px; object-fit: cover;">
             </div>
 
             <!-- Product Details Section -->
             <div class="col-md-8">
                 <div class="card-body">
-                    <h4 class="card-title text-danger">Are you sure you want to delete this product?</h4>
-                    <hr />
-                    <dl class="row">
-                        <dt class="col-sm-5"><strong>Name:</strong></dt>
-                        <dd class="col-sm-7">@Model.Product.Name</dd>
-
-                        <dt class="col-sm-5"><strong>Description:</strong></dt>
-                        <dd class="col-sm-7">@Model.Product.Description</dd>
-
-                        <dt class="col-sm-5"><strong>Price:</strong></dt>
-                        <dd class="col-sm-7">@Model.Product.Price SEK</dd>
-
-                        <dt class="col-sm-5"><strong>Alcohol Percentage:</strong></dt>
-                        <dd class="col-sm-7">@Model.Product.Procent%</dd>
-                    </dl>
-
+                    <div class="d-flex flex-start">
+                        <h3>@Model.Product.Name</h3>
+                    </div>
+                    <hr style="margin-top: 5px;">
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Description:</strong></dt>
+                        <dd class="">@Model.Product.Description</dd>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Price:</strong></dt>
+                        <dd class="">@Model.Product.Price SEK</dd>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Alcohol Percentage:</strong></dt>
+                        <dd class="">@Model.Product.Procent%</dd>
+                    </div>
                     <!-- Action Buttons -->
                     <form asp-action="Delete" class="mt-4">
                         <input type="hidden" asp-for="Product.Id" />
                         <div class="d-flex gap-3">
-                            <button type="submit" class="btn btn-danger flex-fill">Delete</button>
                             <a asp-action="Index" class="btn btn-secondary flex-fill">Cancel</a>
+                            <button type="submit" class="btn btn-danger flex-fill">Delete</button>
+
                         </div>
                     </form>
                 </div>
