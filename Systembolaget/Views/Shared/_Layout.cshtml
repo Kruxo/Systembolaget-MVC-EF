@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Systembolaget";
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,23 +29,25 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 ">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">All Products</a>
+                                asp-action="Index" >All Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
+                            <a class="nav-link text-dark" asp-controller="Category"
+                             asp-action="Index" >Categories</a>
                         </li>
 
                     </ul>
-                    <ul class="navbar-nav flex-grow">
-                        <li class="nav-item">
+                    <ul class="navbar-nav  d-flex align-items-center">
+                        
                             @if (SignInManager.IsSignedIn(User))
-                            {
-                                <button class="btn btn-primary"><a class=" nav-link" style="color:white" asp-area="Identity"
-                                        asp-page="/Account/Logout">Logout</a>
-                                </button>
+                            {    
+                                <span class="navbar-text text-dark">Signed in as <strong>@UserManager.GetUserName(User)</strong>&nbsp;</span>
+                                <button class="btn btn-primary btn-sm" ><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>
+                               
+                                
                             }
                             else
                             {
@@ -52,7 +58,7 @@
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             </li>
                             }
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
