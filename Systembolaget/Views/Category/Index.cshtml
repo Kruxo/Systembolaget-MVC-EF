@@ -5,20 +5,19 @@
 }
 
 <div class="container text-center my-4">
-    <h1>Category List</h1>
+    <h1 class="my-4">Category List</h1>
     @if (isAdmin)
     {
-        <div class="my-3">
+        <div class="my-4">
             <a asp-action="Create" class="btn btn-success">
                 + Add Category
             </a>
         </div>
     }
-
     @if (!Model.Categories.Any())
     {
         <div class="alert alert-info text-center">
-            No categories available. Please add some to get started.
+            No categories available.
         </div>
     }
     else
