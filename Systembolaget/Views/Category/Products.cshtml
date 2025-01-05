@@ -51,8 +51,8 @@ else
                     }
                     else if (SignInManager.IsSignedIn(User))
                     {
-                        <div class="d-grid">
-                            <a class="btn btn-success flex-fill" style="text-decoration-line: line-through;">Add to cart</a>
+                        <div id="product-add-to-cart-@product.Id" class="d-flex justify-content-between">
+
                         </div>
                     }
                 </div>
@@ -64,3 +64,55 @@ else
 <div class="text-center mt-4">
     <a asp-action="Index" asp-controller="Category" class="btn btn-secondary shadow-sm">Back to Categories</a>
 </div>
+
+<script>
+    function productInit(productId, quantity) {
+        const addToCartButton = document.getElementById(`product-add-to-cart-${productId}`);
+
+        if (quantity === 0) {
+            addToCartButton.innerHTML =
+                `<button class="btn btn-success flex-fill" onclick="increment(${productId})">Add to cart</button>`;
+        }
+        else if (quantity < 9) {
+            addToCartButton.innerHTML =
+                `<button class="btn btn-danger flex-fill" onclick="decrement(${productId})">-</button>
+            <p id="product-quantity-${productId}" class="text-center flex-fill d-flex align-items-center justify-content-center m-0">
+                ${quantity}
+            </p>
+            <button class="btn btn-success flex-fill" onclick="increment(${productId})">+</button>`;
+        }
+        else {
+            addToCartButton.innerHTML =
+                `<button class="btn btn-danger flex-fill" onclick="decrement(${productId})">-</button>
+            <p id="product-quantity-${productId}" class="text-center flex-fill d-flex align-items-center justify-content-center m-0">
+                ${quantity}
+            </p>
+            <button class="btn btn-secondary flex-fill" disabled>+</button>`;
+        }
+    }
+
+    const quantities = {}; //Object that keeps tracks of each productId as key with its quantity as value
+
+    function increment(productId) {
+        if (!quantities[productId]) quantities[productId] = 0; //Initialize quantity to zero if not set
+        quantities[productId]++;
+        productInit(productId, quantities[productId]); //Re-renders the button with updated values
+    }
+
+    function decrement(productId) {
+        if (quantities[productId] > 0) {
+            quantities[productId]--;
+            productInit(productId, quantities[productId]);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => { //Client side loads productInit(x, y) with javascript for each card genereated with razor in server side
+    @foreach (var product in Model.Products)
+    {
+        <text> @* <text> in razor ensures the content inside is treated as raw text and then rendered as javascript, without it razor might throw us an error because it might expect html or razor syntax instead *@
+                    productInit(@product.Id, 0); @* Initializing with 0 as a quantity parameter for each available card to show Add To Cart button on load *@
+        </text>
+    }
+});
+
+</script>
