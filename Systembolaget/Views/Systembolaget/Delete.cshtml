@@ -1,42 +1,45 @@
 @model ProductDeleteVm
 
-<img src="@Html.DisplayFor(model => model.Product.Picture)" alt="Bild på sprit bre" width="25px" height="100px" />
+<div class="container my-5" style="text-align: center;">
+    <h1 class="card-title text-danger">Are you sure you want to delete this product?</h1>
+    <div class="card shadow-sm rounded mx-auto" style="max-width: 800px;">
+        <div class="row g-0">
+            <!-- Product Image Section -->
+            <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
+                <img src="@Model.Product.Picture" alt="Product Image" class="img-fluid rounded"
+                    style="max-height: 200px; object-fit: cover;">
+            </div>
 
+            <!-- Product Details Section -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="d-flex flex-start">
+                        <h3>@Model.Product.Name</h3>
+                    </div>
+                    <hr style="margin-top: 5px;">
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Description:</strong></dt>
+                        <dd class="">@Model.Product.Description</dd>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Price:</strong></dt>
+                        <dd class="">@Model.Product.Price SEK</dd>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <dt class=""><strong>Alcohol Percentage:</strong></dt>
+                        <dd class="">@Model.Product.Procent%</dd>
+                    </div>
+                    <!-- Action Buttons -->
+                    <form asp-action="Delete" class="mt-4">
+                        <input type="hidden" asp-for="Product.Id" />
+                        <div class="d-flex gap-3">
+                            <a asp-action="Index" class="btn btn-secondary flex-fill">Cancel</a>
+                            <button type="submit" class="btn btn-danger flex-fill">Delete</button>
 
-<div>
-    <h4></h4>
-    <hr />
-    <dl class="row">
-        <dt class="col sm-2">
-            Namn
-        </dt>
-        <dd class="col-sm10">
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
-        <dt class="col sm-2">
-            Description
-        </dt>
-        <dd class="col-sm10">
-            @Html.DisplayFor(model => model.Product.Description)
-        </dd>
-        <dt class="col sm-2">
-            Pris
-        </dt>
-        <dd class="col-sm10">
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-        <dt class="col sm-2">
-            Procent
-        </dt>
-        <dd class="col-sm10">
-            @Html.DisplayFor(model => model.Product.Procent)
-        </dd>
-
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Product.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-primary ms-5"> Back to List</a>
-    </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

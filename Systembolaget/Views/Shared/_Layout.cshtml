@@ -1,5 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject UserService UserService
+@{
+    ViewData["Title"] = "Systembolaget";
+}
+@{
+    var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +15,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Systembolaget</title>
+    <title>@ViewData["Title"] - SystemCompany</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Systembolaget.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -19,40 +29,55 @@
             <div class="container-fluid">
 
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="/images/logo.png" width="50px" />Systembolaget</a>
+                    <img src="/images/logo.png" width="50px" />SystemCompany</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Systembolaget"
-                                asp-action="Index">All Products</a>
+                    <ul class="navbar-nav flex-grow-1 ">
+                        <li class="nav-item" style="margin: 0 5px">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Systembolaget" ? "active" : "")"
+                                asp-controller="Systembolaget" asp-action="Index">All Products</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
+                        <li class="nav-item" style="margin: 0 5px">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                                asp-controller="Category" asp-action="Index">Categories</a>
                         </li>
 
                     </ul>
-                    <ul class="navbar-nav flex-grow">
-                        <li class="nav-item">
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <button class="btn btn-primary"><a class=" nav-link" style="color:white" asp-area="Identity"
-                                        asp-page="/Account/Logout">Logout</a>
-                                </button>
-                            }
-                            else
-                            {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
-                            }
-                        </li>
+                    <ul class="navbar-nav d-flex justify-content-end">
+                        @if (isAdmin)
+                        {
+                            <a class="navbar-text text-dark" style="margin: 0 5px">
+                                <strong>@UserManager.GetUserName(User) 🐱‍👤</strong></a>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-danger"
+                                style="color: white; text-align: center;">Logout</a>
+                        }
+                        else if (SignInManager.IsSignedIn(User))
+                        {
+                            <a asp-controller="Cart" asp-action="Index"
+                                class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cart" ? "active" : "")"
+                                style="margin: 0 5px">Cart 🛒</a>
+                            <span class="navbar-text text-dark" style="margin: 0 5px">
+                                <strong>@UserManager.GetUserName(User) 🦄</strong></span>
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="btn btn-danger"
+                                style="color: white; text-align: center;">Logout</a>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav d-flex justify-content-end">
+                                <li class="nav-item" style="margin: 0 5px">
+                                    <a class="nav-link text-dark @(ViewContext.RouteData.Values["Page"]?.ToString() == "/Account/Login" ? "active" : "")"
+                                        asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                                </li>
+                                <li class="nav-item" style="margin: 0 5px">
+                                    <a class="nav-link text-dark @(ViewContext.RouteData.Values["Page"]?.ToString() == "/Account/Register" ? "active" : "")"
+                                        asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                            </ul>
+
+                        }
                     </ul>
                 </div>
             </div>
@@ -64,11 +89,6 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Systembolaget - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -76,3 +96,40 @@
 </body>
 
 </html>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Are you 20 years old?</h5>
+
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">This page contains information about alcohol. You need to be 20 years old or older
+                    to be able to visit and purchase at this page.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="minor()">No, I am not 20</button>
+                <button type="button" class="btn btn-primary" onclick="confirmAge()" data-bs-dismiss="modal">Yes, I am
+                    over 20</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        if (!sessionStorage.getItem('isOver20')) { //sessionStorage > localStorage instead of storing the value until manually removed, so alert shows up again after closing the browser and visiting the website again
+            $('#staticBackdrop').modal('show');
+        }
+    };
+
+    function minor() {
+        window.location.href = "@Url.Action("Minor", "Home")";
+    }
+
+    function confirmAge() {
+        sessionStorage.setItem('isOver20', 'true');
+    }
+</script>

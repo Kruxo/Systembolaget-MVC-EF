@@ -1,26 +1,54 @@
-@model Systembolaget.ViewModels.CategoryIndexVm
+@model CategoryIndexVm
+@inject UserService UserService;
+@{
+    var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
+}
 
-<h1>Categories</h1>
-
-<a asp-action="Create" class="btn btn-primary">Add Category</a>
-
-<table class="table ">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model.Categories)
-        {
-            <tr>
-                <td>@category.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container text-center my-4">
+    <h1 class="my-4">Category List</h1>
+    @if (isAdmin)
+    {
+        <div class="my-4">
+            <a asp-action="Create" class="btn btn-success">
+                + Add Category
+            </a>
+        </div>
+    }
+    @if (!Model.Categories.Any())
+    {
+        <div class="alert alert-info text-center">
+            No categories available.
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-wrap justify-content-center">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="card text-center m-3"
+                    style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid rgba(194, 194, 194, 0.185); border-radius: 10px;">
+                    <a asp-action="Products" asp-route-id="@category.Id" class="text-decoration-none text-primary">
+                        <img src="https://media.istockphoto.com/id/1472933890/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg?s=612x612&w=0&k=20&c=Rdn-lecwAj8ciQEccm0Ep2RX50FCuUJOaEM8qQjiLL0="
+                            class="card-img-top"
+                            style="height: 200px; width: auto; object-fit: contain; margin: auto; padding-top: 10px;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-action="Products" asp-route-id="@category.Id" class="text-decoration-none text-dark">
+                                @category.Name
+                            </a>
+                        </h5>
+                        @if (isAdmin)
+                        {
+                            <hr class="my-3">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning flex-fill">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger flex-fill">Delete</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

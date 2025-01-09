@@ -7,7 +7,4 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Category> Categories { get; set; }
 
     // Om vi använder oss utav modelbuilder kan vi konfiguera så tabellerna mer specifikt
-
-
-
 }

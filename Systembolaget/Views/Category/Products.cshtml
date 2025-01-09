@@ -1,4 +1,4 @@
-@model ProductIndexVm
+@model CategoryProductsVm
 @inject UserService UserService
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
@@ -6,19 +6,11 @@
     var isAdmin = await UserService.IsCurrentUserAdministratorAsync();
 }
 
-<h1 class="text-center my-4">All Products</h1>
+<h1 class="text-center my-4">Products in @Model.CategoryName</h1>
 
-@if (isAdmin)
+@if (Model.Products.Count == 0)
 {
-    <div class="text-center mb-4">
-        <a asp-action="Create" class="btn btn-success">+ Add Product</a>
-    </div>
-}
-@if (!Model.Products.Any())
-{
-    <div class="alert alert-info text-center">
-        No products available.
-    </div>
+    <div class="alert alert-warning text-center">No products available in this category.</div>
 }
 else
 {
@@ -28,7 +20,7 @@ else
             <div class="card m-3"
                 style="width: 20rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid rgba(194, 194, 194, 0.185); border-radius: 10px;">
                 <img src="@product.Picture" class="card-img-top rounded-top" alt="@product.Name"
-                    style="height: 150px; width: auto; object-fit: contain; margin: auto; padding-top: 10px">
+                    style="height: 150px; width: auto; object-fit: contain; margin: auto; padding-top: 10px;">
 
                 <div class="card-body">
                     <h5 class="card-title text-center mb-2">@product.Name</h5>
@@ -47,16 +39,13 @@ else
                             <span><strong>Price:</strong></span>
                             <span>@product.Price SEK</span>
                         </li>
-                        <li class="d-flex justify-content-between">
-                            <span><strong>Category:</strong></span>
-                            <span>@(Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name)</span>
-                        </li>
                     </ul>
                     @if (isAdmin)
                     {
                         <div class="d-flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning flex-fill">Edit</a>
-                            <a href="@Url.Action("Delete", "Systembolaget", new { id = product.Id })"
+                            <a asp-controller="Systembolaget" asp-action="Edit" asp-route-id="@product.Id"
+                                class="btn btn-warning flex-fill">Edit</a>
+                            <a asp-controller="Systembolaget" asp-action="Delete" asp-route-id="@product.Id"
                                 class="btn btn-danger flex-fill">Delete</a>
                         </div>
                     }
@@ -66,12 +55,15 @@ else
 
                         </div>
                     }
-
                 </div>
             </div>
         }
     </div>
 }
+
+<div class="text-center mt-4">
+    <a asp-action="Index" asp-controller="Category" class="btn btn-secondary shadow-sm">Back to Categories</a>
+</div>
 
 <script>
     function productInit(productId, quantity) {
