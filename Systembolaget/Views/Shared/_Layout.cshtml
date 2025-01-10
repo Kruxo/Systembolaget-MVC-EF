@@ -82,6 +82,17 @@
                 </div>
             </div>
         </nav>
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <div class="card text-center m-3 d-flex justify-content-center"
+                style="box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid rgba(194, 194, 194, 0.185); border-radius: 10px;">
+
+                <a class="btn btn-lg btn-success" asp-area="Identity" asp-page="/Account/Login">
+                    Please LOG IN to be able to purchase our alcohol!
+                </a>
+
+            </div>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
