@@ -23,6 +23,11 @@ public class CartController : Controller
 
         return View(viewModel);
     }
+
+    public IActionResult Checkout()
+    {
+        return View();
+    }
 }
 
 

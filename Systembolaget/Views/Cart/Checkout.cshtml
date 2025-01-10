@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<div class="container my-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 600px; border-radius: 15px; overflow: hidden;">
+        <div class="card-header text-white text-center" style="background-color: #28a745;">
+            <h2 class="my-3">Order Confirmation</h2>
+        </div>
+        <div class="card-body text-center">
+            <p class="h5">Thank you for your order!</p>
+            <p class="mb-4">Your order has been successfully placed.</p>
+            <div class="alert alert-info" style="font-size: 1.25rem;">
+                <strong>Confirmation Number:</strong> <span id="confirmation-number" class="fw-bold"></span>
+            </div>
+            <p class="mt-4">You will be redirected to the homepage in <span id="timer" class="fw-bold">9</span>
+                seconds...</p>
+        </div>
+        <div class="card-footer text-center bg-light">
+            <img src="https://via.placeholder.com/200x50?text=Thank+You!" alt="Thank You" class="img-fluid mt-3">
+        </div>
+    </div>
+</div>
+
+<script>
+    //Generates a random 6-digit confirmation number
+    function generateConfirmationNumber() {
+        return Math.floor(100000 + Math.random() * 900000);
+    }
+
+    const confirmationNumber = generateConfirmationNumber();
+    document.getElementById('confirmation-number').innerText = confirmationNumber;
+
+    //Remove cart-data from localStorage
+    localStorage.removeItem('cartQuantities');
+
+    //Countdown timer
+    let timer = 9;
+    const timerElement = document.getElementById('timer');
+    const countdownInterval = setInterval(() => {
+        timer--;
+        timerElement.innerText = timer;
+        if (timer === 0) {
+            clearInterval(countdownInterval);
+            window.location.href = '/'; //Redirect to homepage
+        }
+    }, 1000);
+</script>

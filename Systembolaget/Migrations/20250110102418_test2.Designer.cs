@@ -12,8 +12,8 @@ using Systembolaget.Models;
 namespace Systembolaget.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250109132747_lukasInit")]
-    partial class lukasInit
+    [Migration("20250110102418_test2")]
+    partial class test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
