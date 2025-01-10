@@ -1,8 +1,10 @@
+@model CartIndexVm
+
 <div class="container my-5">
     <h1 class="text-center mb-4">Your Cart</h1>
 
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="cart-table">
             <thead class="thead-light">
                 <tr>
                     <th scope="col">Product</th>
@@ -12,34 +14,13 @@
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src="https://media.istockphoto.com/id/1472933890/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg?s=612x612&w=0&k=20&c=Rdn-lecwAj8ciQEccm0Ep2RX50FCuUJOaEM8qQjiLL0="
-                                alt="" style="height: 50px; width: auto; object-fit: contain; margin-right: 10px;">
-                            <span>Product Name</span>
-                        </div>
-                    </td>
-                    <td class="text-center align-middle">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <button class="btn btn-danger btn-sm me-2">-</button>
-                            <p class="m-0">10</p>
-                            <button class="btn btn-success btn-sm ms-2">+</button>
-                        </div>
-                    </td>
-                    <td class="text-end align-middle">10 SEK</td>
-                    <td class="text-end align-middle">100 SEK</td>
-                    <td class="text-center align-middle">
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically rendered here -->
             </tbody>
             <tfoot>
                 <tr>
                     <th colspan="3" class="text-end">Total:</th>
-                    <th class="text-end">100 SEK</th>
+                    <th class="text-end" id="cart-total">0 SEK</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -50,3 +31,80 @@
         <a asp-action="Checkout" class="btn btn-success">Proceed to Checkout</a>
     </div>
 </div>
+
+<script>
+    const products = @Html.Raw(Json.Serialize(Model.Products));
+
+    //Fetch cart quantities from localStorage
+    const cartQuantities = JSON.parse(localStorage.getItem('cartQuantities')) || {};
+
+    //Function to calculate total and render cart items
+    function renderCart() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        cartItemsContainer.innerHTML = ''; // Clear previous items
+        let totalCost = 0;
+
+        //Iterate over products to render only those with quantities in the cart
+        products.forEach(product => {
+            const quantity = cartQuantities[product.id] || 0;
+
+            if (quantity > 0) { //Only render products with quantities > 0
+                const totalPrice = product.price * quantity;
+                totalCost += totalPrice;
+
+                cartItemsContainer.innerHTML += `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${product.picture}" alt="${product.name}" 
+                                style="height: 50px; width: auto; object-fit: contain; margin-right: 10px;">
+                            <span>${product.name}</span>
+                        </div>
+                    </td>
+                    <td class="text-center align-middle">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button class="btn btn-danger btn-sm me-2" onclick="decrement(${product.id})">-</button>
+                            <p class="m-0">${quantity}</p>
+                            <button class="btn btn-success btn-sm ms-2" onclick="increment(${product.id})">+</button>
+                        </div>
+                    </td>
+                    <td class="text-end align-middle">${product.price} SEK</td>
+                    <td class="text-end align-middle">${totalPrice.toFixed(2)} SEK</td>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-danger btn-sm" onclick="deleteItem(${product.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+            }
+        });
+
+        // Update total cost in the footer
+        document.getElementById('cart-total').innerText = `${totalCost.toFixed(2)} SEK`;
+    }
+
+    function increment(productId) {
+        cartQuantities[productId] = (cartQuantities[productId] || 0) + 1;
+        localStorage.setItem('cartQuantities', JSON.stringify(cartQuantities));
+        renderCart();
+    }
+
+    function decrement(productId) {
+        if (cartQuantities[productId] > 0) {
+            cartQuantities[productId]--;
+            if (cartQuantities[productId] === 0) delete cartQuantities[productId];
+            localStorage.setItem('cartQuantities', JSON.stringify(cartQuantities));
+            renderCart();
+        }
+    }
+
+    function deleteItem(productId) {
+        delete cartQuantities[productId];
+        localStorage.setItem('cartQuantities', JSON.stringify(cartQuantities));
+        renderCart();
+    }
+
+    //Initial render
+    document.addEventListener('DOMContentLoaded', renderCart);
+
+    console.log(products)
+</script>
